@@ -1,0 +1,1518 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Style Coffe & Style Food - Sistem Kasir & POS</title>
+  <meta name="description" content="Aplikasi Web Kasir & Point of Sale resmi Style Coffe & Style Food Bandung.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-light">
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- AUTH SCREEN (LOGIN & REGISTER) -->
+  <div id="view-login" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="brand-logo-glow">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+            <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+            <line x1="6" y1="1" x2="6" y2="4"></line>
+            <line x1="10" y1="1" x2="10" y2="4"></line>
+            <line x1="14" y1="1" x2="14" y2="4"></line>
+          </svg>
+        </div>
+        <h1>Style <span>Coffe & Food</span></h1>
+        <p class="auth-subtitle">Point of Sale • Jl. Budi Cilember No 120, Kota Bandung</p>
+      </div>
+
+      <!-- Auth Tabs: Login vs Register -->
+      <div class="auth-tab-switch">
+        <button type="button" class="btn-auth-tab active" id="tab-btn-login">Masuk (Login)</button>
+        <button type="button" class="btn-auth-tab" id="tab-btn-register">Daftar Akun Baru</button>
+      </div>
+
+      <!-- 1. FORM LOGIN -->
+      <form id="login-form" class="auth-form">
+        <div class="auth-alert-notice">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+          <span>Hanya pengguna yang sudah terdaftar yang dapat masuk ke sistem.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="login-username">Nama Pengguna / Username</label>
+          <div class="input-with-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <input type="text" id="login-username" placeholder="Masukkan username" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-password">Kata Sandi / Password</label>
+          <div class="input-with-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="login-password" placeholder="Masukkan password" required autocomplete="current-password">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="login-role">Hak Akses (Role)</label>
+          <div class="input-with-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <select id="login-role" required>
+              <option value="" disabled selected>Pilih Hak Akses (Role)...</option>
+              <option value="kasir">Kasir (POS & Transaksi)</option>
+              <option value="owner">Pemilik Toko (Laporan, Stok, Pengaturan)</option>
+              <option value="admin">Administrator (Akses Penuh)</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block btn-lg" id="btn-login-submit">
+          <span>Masuk ke Sistem Kasir</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </form>
+
+      <!-- 2. FORM REGISTER (PENDAFTARAN BARU) -->
+      <form id="register-form" class="auth-form hidden">
+        <div class="auth-alert-notice success-notice">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <span>Daftarkan akun kasir, admin, atau owner baru Anda di sini.</span>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-fullname">Nama Lengkap</label>
+          <div class="input-with-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <input type="text" id="reg-fullname" placeholder="Contoh: Budi Santoso" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-username">Username Unik</label>
+          <div class="input-with-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle></svg>
+            <input type="text" id="reg-username" placeholder="Huruf/angka tanpa spasi (misal: budi_kasir)" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-role">Pilih Hak Akses (Role)</label>
+          <div class="input-with-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            <select id="reg-role" required>
+              <option value="" disabled selected>Pilih Hak Akses (Role)...</option>
+              <option value="kasir">Kasir</option>
+              <option value="owner">Pemilik Toko (Owner)</option>
+              <option value="admin">Administrator</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="reg-password">Kata Sandi (Password)</label>
+          <div class="input-with-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="reg-password" placeholder="Minimal 4 karakter" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-block btn-lg" id="btn-register-submit">
+          <span>Daftarkan Akun Sekarang</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- MAIN APP CONTAINER -->
+  <div id="app-container" class="app-container hidden">
+    <!-- Top Navigation Header -->
+    <header class="top-nav">
+      <div class="nav-left">
+        <button id="btn-mobile-sidebar-toggle" class="nav-icon-btn mobile-menu-btn" title="Menu Navigasi" type="button">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <div class="app-logo">
+          <div class="logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+            </svg>
+          </div>
+          <div class="logo-text">
+            <h2>Style <span>Coffe & Food</span></h2>
+            <span id="store-title-badge" class="store-badge">Jl. Budi Cilember No 120, Kota Bandung</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-center">
+        <div class="live-clock-badge">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          <span id="live-clock">00:00:00 WIB</span>
+        </div>
+      </div>
+
+      <div class="nav-right">
+        <!-- Keyboard Shortcuts Help -->
+        <button id="btn-open-shortcuts" class="nav-icon-btn" title="Panduan Tombol Cepat (F1)">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"></path></svg>
+        </button>
+
+        <!-- Fullscreen Toggle -->
+        <button id="btn-toggle-fullscreen" class="nav-icon-btn" title="Layar Penuh (F11)">
+          <svg id="icon-fs-enter" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path></svg>
+          <svg id="icon-fs-exit" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"></path></svg>
+        </button>
+
+        <!-- Low Stock Alert Icon -->
+        <button id="btn-stock-alert" class="nav-icon-btn" title="Peringatan Stok Menipis">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+          <span id="stock-alert-counter" class="nav-badge hidden">0</span>
+        </button>
+
+        <!-- Sound Toggle -->
+        <button id="btn-toggle-sound" class="nav-icon-btn" title="Suara Beep Kasir">
+          <svg id="icon-sound-on" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+          <svg id="icon-sound-off" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button id="btn-toggle-theme" class="nav-icon-btn" title="Ganti Mode Gelap/Terang">
+          <svg id="icon-theme-dark" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          <svg id="icon-theme-light" class="hidden" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+
+        <!-- User Profile Dropdown -->
+        <div class="user-profile-menu">
+          <div class="user-avatar" id="current-avatar">K</div>
+          <div class="user-info">
+            <span id="current-user-name" class="user-name">Kasir</span>
+            <span id="current-role-badge" class="role-badge badge-kasir">Kasir</span>
+          </div>
+          <button id="btn-logout" class="btn btn-outline-danger btn-sm" title="Keluar">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <span>Keluar</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- App Body (Sidebar + Main Content) -->
+    <div class="app-body">
+      <!-- Mobile Sidebar Backdrop Overlay -->
+      <div id="sidebar-backdrop" class="sidebar-backdrop"></div>
+
+      <!-- Sidebar Navigation -->
+      <aside class="app-sidebar" id="app-sidebar">
+        <div class="sidebar-mobile-header">
+          <div class="sidebar-brand-mobile">
+            <strong>Style Coffe & Food</strong>
+          </div>
+          <button id="btn-close-mobile-sidebar" class="btn-close-mobile-sidebar" type="button" title="Tutup Menu">&times;</button>
+        </div>
+        <nav class="sidebar-nav">
+          <button class="nav-link active" data-view="pos" id="nav-pos">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span>Kasir (POS)</span>
+          </button>
+
+          <button class="nav-link" data-view="products" id="nav-products">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
+            <span>Menu Makanan & Minuman</span>
+          </button>
+
+          <button class="nav-link" data-view="stock" id="nav-stock">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+            <span>Manajemen Stok</span>
+            <span id="stock-menu-badge" class="badge-mini-danger hidden">0</span>
+          </button>
+
+          <button class="nav-link" data-view="reports" id="nav-reports">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            <span>Laporan & Riwayat</span>
+          </button>
+
+          <button class="nav-link" data-view="settings" id="nav-settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span>Pengaturan</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div class="system-status">
+            <span class="status-indicator online"></span>
+            <small>Style Coffe (Sistem Aktif)</small>
+          </div>
+          <div class="jwt-indicator">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="11" width="18" height="11" rx="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <span id="session-token-label">Sesi Terautentikasi</span>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      <main class="app-main">
+
+        <!-- ============================================ -->
+        <!-- VIEW 1: POS (KASIR UTAMA) -->
+        <!-- ============================================ -->
+        <section id="view-pos" class="view-panel active">
+          <div class="pos-layout">
+            <!-- Left: Catalog & Product Grid -->
+            <div class="pos-catalog">
+              <!-- Search & Barcode Bar -->
+              <div class="catalog-toolbar">
+                <div class="search-box">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                  <input type="text" id="pos-search-input" placeholder="Cari nama kopi / makanan..." autocomplete="off">
+                  <button id="pos-search-clear" class="btn-clear hidden">&times;</button>
+                </div>
+
+                <div class="barcode-box" title="Scan barcode produk atau ketik lalu tekan Enter">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 5v14M8 5v14M12 5v14M17 5v14M21 5v14"></path></svg>
+                  <input type="text" id="pos-barcode-input" placeholder="Scan Barcode..." autocomplete="off">
+                  <span class="kbd-badge">Enter</span>
+                </div>
+              </div>
+
+              <!-- Categories Filter Tabs (Semua, Makanan, Minuman) -->
+              <div class="category-tabs" id="pos-category-tabs">
+                <!-- Dynamically generated: Semua, Makanan, Minuman -->
+              </div>
+
+              <!-- Products Grid -->
+              <div class="products-grid" id="pos-products-grid">
+                <!-- Product Cards Rendered here -->
+              </div>
+
+              <!-- Floating Mobile Cart Trigger Bar (Visible on Mobile HP) -->
+              <div id="mobile-cart-float-bar" class="mobile-cart-float-bar hidden">
+                <div class="mobile-cart-float-info">
+                  <div class="mobile-cart-float-badge">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span id="mobile-float-count">0 item</span>
+                  </div>
+                  <span id="mobile-float-total" class="mobile-float-total">Rp 0</span>
+                </div>
+                <button type="button" id="btn-open-mobile-cart" class="btn-open-mobile-cart">
+                  <span>Lihat Pesanan</span>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Right: Interactive Shopping Cart -->
+            <div class="pos-cart-panel" id="pos-cart-panel">
+              <div class="cart-header">
+                <button type="button" id="btn-close-mobile-cart" class="btn-close-mobile-cart" title="Kembali ke Menu">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  <span>Menu</span>
+                </button>
+                <div class="cart-title">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                  <h3>Pesanan Pelanggan</h3>
+                </div>
+                <div class="cart-meta">
+                  <span id="cart-item-count" class="badge-count">0 item</span>
+                  <button id="btn-hold-cart" class="btn btn-outline-warning btn-xs" title="Tahan / Parkir Transaksi Ini (F7)">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg>
+                    <span>Tahan (F7)</span>
+                  </button>
+                  <button id="btn-view-held" class="btn btn-outline-primary btn-xs" title="Buka Daftar Pesanan Tertahan (F9)">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+                    <span id="held-count-badge">0 Parkir</span>
+                  </button>
+                  <button id="btn-clear-cart" class="btn btn-outline-danger btn-xs" title="Kosongkan Pesanan (F8)">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    <span>Reset</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Order Type Selector (Dine In vs Take Away vs Delivery) -->
+              <div class="order-type-bar">
+                <button type="button" class="btn-order-type active" data-type="dine_in">
+                  <span>🍽️ Dine In</span>
+                </button>
+                <button type="button" class="btn-order-type" data-type="take_away">
+                  <span>🛍️ Take Away</span>
+                </button>
+                <button type="button" class="btn-order-type" data-type="delivery">
+                  <span>🛵 Delivery</span>
+                </button>
+              </div>
+
+              <!-- Customer / Table Input Bar -->
+              <div class="customer-meta-box">
+                <div class="input-with-icon input-compact">
+                  <span id="customer-type-icon-wrap" style="position: absolute; left: 10px; display: flex; align-items: center; pointer-events: none; color: var(--text-muted);">
+                    <svg id="customer-type-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8M12 8v8"></path></svg>
+                  </span>
+                  <input type="text" id="cart-customer-name" placeholder="Nomor Meja (misal: Meja 04)" autocomplete="off">
+                </div>
+                <div class="quick-table-chips" id="quick-table-chips">
+                  <button type="button" class="table-chip" data-val="Meja 01">M1</button>
+                  <button type="button" class="table-chip" data-val="Meja 02">M2</button>
+                  <button type="button" class="table-chip" data-val="Meja 03">M3</button>
+                  <button type="button" class="table-chip" data-val="Meja 04">M4</button>
+                  <button type="button" class="table-chip" data-val="Meja 05">M5</button>
+                  <button type="button" class="table-chip" data-val="Meja VIP">VIP</button>
+                </div>
+              </div>
+
+              <!-- Cart Line Items -->
+              <div class="cart-items-list" id="cart-items-container">
+                <div class="empty-cart-state">
+                  <div class="empty-cart-icon">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                  </div>
+                  <p class="empty-title">Keranjang Masih Kosong</p>
+                  <p class="empty-subtitle">Pilih kopi atau makanan dari katalog menu di sebelah kiri.</p>
+                </div>
+              </div>
+
+              <!-- Cart Calculation Summary -->
+              <div class="cart-summary">
+                <div class="summary-row">
+                  <span>Subtotal</span>
+                  <span id="cart-subtotal" class="amount">Rp 0</span>
+                </div>
+
+                <div class="summary-row discount-row">
+                  <div class="discount-label">
+                    <span>Diskon</span>
+                    <select id="cart-discount-type" class="select-discount-type">
+                      <option value="percent">% Persen</option>
+                      <option value="nominal">Rp Rupiah</option>
+                    </select>
+                  </div>
+                  <div class="discount-input-wrap">
+                    <input type="number" id="cart-discount-value" min="0" value="0" placeholder="0">
+                    <span id="cart-discount-nominal" class="amount-discount">-Rp 0</span>
+                  </div>
+                </div>
+
+                <div class="summary-row tax-row" id="cart-tax-row">
+                  <label class="tax-checkbox-label">
+                    <input type="checkbox" id="cart-tax-toggle" checked>
+                    <span>PPN (<span id="cart-tax-rate">11</span>%)</span>
+                  </label>
+                  <span id="cart-tax-nominal" class="amount">Rp 0</span>
+                </div>
+
+                <!-- Delivery Fee (Shown Only When Delivery Selected) -->
+                <div class="summary-row delivery-row hidden" id="cart-delivery-row">
+                  <div class="delivery-label">
+                    <span>🛵 Ongkos Kirim</span>
+                  </div>
+                  <div class="delivery-input-wrap">
+                    <span class="currency-prefix-sm">Rp</span>
+                    <input type="number" id="cart-delivery-fee" min="0" step="1000" value="0" placeholder="0">
+                  </div>
+                </div>
+
+                <div class="summary-divider"></div>
+
+                <div class="summary-row total-row">
+                  <div class="total-label">
+                    <span>Total Bayar</span>
+                    <small>Termasuk PPN & Diskon</small>
+                  </div>
+                  <span id="cart-grand-total" class="grand-total-amount">Rp 0</span>
+                </div>
+
+                <!-- Pay Button -->
+                <button id="btn-open-payment" class="btn btn-success btn-block btn-lg btn-pay" disabled>
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                  <span>Proses Bayar (F4)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 2: MANAJEMEN MENU PRODUK (CRUD) -->
+        <!-- ============================================ -->
+        <section id="view-products" class="view-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <h2>Menu Makanan & Minuman</h2>
+              <p>Kelola daftar menu kopi, minuman, dan makanan Style Coffe & Style Food.</p>
+            </div>
+            <div class="panel-actions">
+              <button id="btn-add-product" class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Tambah Menu Baru</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card">
+              <div class="kpi-icon icon-blue">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
+              </div>
+              <div class="kpi-content">
+                <span class="kpi-label">Total Menu Aktif</span>
+                <h3 id="kpi-total-products">0 Menu</h3>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon icon-green">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <div class="kpi-content">
+                <span class="kpi-label">Nilai Estimasi Modal Bahan</span>
+                <h3 id="kpi-total-inventory-value">Rp 0</h3>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon icon-amber">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+              </div>
+              <div class="kpi-content">
+                <span class="kpi-label">Menu Stok Menipis</span>
+                <h3 id="kpi-low-stock-count" class="text-amber">0 Menu</h3>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Filter Bar -->
+          <div class="table-filter-bar">
+            <div class="search-box">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="text" id="filter-product-search" placeholder="Cari nama menu atau SKU...">
+            </div>
+            <div class="filter-group">
+              <select id="filter-product-category" class="select-filter">
+                <option value="all">Semua Kategori (Makanan & Minuman)</option>
+                <option value="Makanan">Makanan</option>
+                <option value="Minuman">Minuman</option>
+              </select>
+              <select id="filter-product-stock-status" class="select-filter">
+                <option value="all">Semua Status Stok</option>
+                <option value="safe">Stok Aman</option>
+                <option value="low">Stok Menipis</option>
+                <option value="empty">Stok Habis</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Product Data Table -->
+          <div class="table-responsive">
+            <table class="data-table" id="products-table">
+              <thead>
+                <tr>
+                  <th style="width: 60px;">Foto</th>
+                  <th>Kode / Barcode</th>
+                  <th>Nama Menu</th>
+                  <th>Kategori</th>
+                  <th>Harga Modal (HPP)</th>
+                  <th>Harga Jual</th>
+                  <th>Margin Keuntungan</th>
+                  <th>Porsi / Stok</th>
+                  <th>Status</th>
+                  <th style="text-align: right; width: 120px;">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="products-table-body">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 3: MANAJEMEN STOK & INVENTARIS -->
+        <!-- ============================================ -->
+        <section id="view-stock" class="view-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <h2>Manajemen Stok Bahan & Porsi</h2>
+              <p>Pantau persediaan bahan, penyesuaian porsi harian, dan log audit mutasi.</p>
+            </div>
+            <div class="panel-actions">
+              <button id="btn-quick-stock-in" class="btn btn-success">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Catat Restock (+)</span>
+              </button>
+              <button id="btn-quick-stock-out" class="btn btn-outline-danger">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>Catat Pengurangan / Rusak (-)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Low Stock Warning Banner -->
+          <div id="low-stock-banner" class="alert-banner alert-warning hidden">
+            <div class="alert-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            </div>
+            <div class="alert-text">
+              <h4>Peringatan Stok Menu Menipis!</h4>
+              <p id="low-stock-banner-text">Beberapa menu persediaannya sudah mendekati batas minimum.</p>
+            </div>
+            <button class="btn btn-sm btn-dark" onclick="window.KasirApp.filterLowStockInStockView()">Lihat Menu</button>
+          </div>
+
+          <!-- Stock Navigation Tabs -->
+          <div class="sub-nav-tabs">
+            <button class="sub-tab-btn active" data-subtab="stock-status">Status Stok Menu</button>
+            <button class="sub-tab-btn" data-subtab="stock-logs">Log Riwayat Mutasi</button>
+          </div>
+
+          <!-- Subtab 1: Stock Status Table -->
+          <div id="subtab-stock-status" class="subtab-content active">
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Kode</th>
+                    <th>Nama Menu</th>
+                    <th>Kategori</th>
+                    <th>Stok Tersedia</th>
+                    <th>Batas Minimum</th>
+                    <th>Status</th>
+                    <th style="text-align: right;">Aksi Cepat</th>
+                  </tr>
+                </thead>
+                <tbody id="stock-status-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Subtab 2: Stock Logs Audit -->
+          <div id="subtab-stock-logs" class="subtab-content">
+            <div class="table-filter-bar">
+              <div class="search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="filter-stock-log-search" placeholder="Cari kode, nama menu, atau keterangan...">
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Waktu</th>
+                    <th>Nama Menu</th>
+                    <th>Tipe Mutasi</th>
+                    <th>Perubahan (Qty)</th>
+                    <th>Stok Akhir</th>
+                    <th>Keterangan</th>
+                    <th>Petugas</th>
+                  </tr>
+                </thead>
+                <tbody id="stock-logs-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 4: LAPORAN & RIWAYAT TRANSAKSI (NO BAR CHART) -->
+        <!-- ============================================ -->
+        <section id="view-reports" class="view-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <h2>Laporan Penjualan & Riwayat Nota</h2>
+              <p>Performa omzet hari ini dan riwayat rekapan transaksi lengkap per hari.</p>
+            </div>
+            <div class="panel-actions">
+              <button id="btn-export-excel" class="btn btn-outline-success">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>Ekspor ke Excel (CSV)</span>
+              </button>
+              <button id="btn-print-report" class="btn btn-outline-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                <span>Cetak Rekap Laporan</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Date Filter Pills -->
+          <div class="report-filters">
+            <span class="filter-label">Filter Riwayat:</span>
+            <button class="btn-period active" data-period="today">Hari Ini (Otomatis Reset Setiap Hari)</button>
+            <button class="btn-period" data-period="yesterday">Kemarin</button>
+            <button class="btn-period" data-period="week">7 Hari Terakhir</button>
+            <button class="btn-period" data-period="month">Bulan Ini</button>
+            <button class="btn-period" data-period="all">Semua Riwayat</button>
+          </div>
+
+          <!-- Analytics KPI Cards -->
+          <div class="kpi-grid">
+            <div class="kpi-card highlight-card">
+              <div class="kpi-icon icon-emerald">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+              </div>
+              <div class="kpi-content">
+                <span class="kpi-label">Total Omzet Penjualan</span>
+                <h3 id="report-total-revenue">Rp 0</h3>
+                <small class="kpi-subtext" id="report-period-text">Periode Hari Ini</small>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon icon-blue">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+              </div>
+              <div class="kpi-content">
+                <span class="kpi-label">Total Transaksi Nota</span>
+                <h3 id="report-total-orders">0 Transaksi</h3>
+                <small class="kpi-subtext" id="report-avg-order">Rata-rata: Rp 0 / nota</small>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon icon-purple">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+              </div>
+              <div class="kpi-content">
+                <span class="kpi-label">Estimasi Keuntungan Bersih</span>
+                <h3 id="report-gross-profit">Rp 0</h3>
+                <small class="kpi-subtext">Omzet dikurangi HPP bahan</small>
+              </div>
+            </div>
+
+            <div class="kpi-card">
+              <div class="kpi-icon icon-amber">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
+              </div>
+              <div class="kpi-content">
+                <span class="kpi-label">Porsi / Item Terjual</span>
+                <h3 id="report-items-sold">0 Porsi</h3>
+                <small class="kpi-subtext">Total kuantitas terjual</small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section: Rekap Penjualan Harian & Top 5 Menu (NO BAR CHART) -->
+          <div class="analytics-row">
+            <!-- Daily Sales Summary Table (Replaces Bar Chart) -->
+            <div class="analytics-card chart-card">
+              <div class="card-header">
+                <div>
+                  <h3>Rekap Penjualan Per Hari</h3>
+                  <small style="color: var(--text-muted);">Riwayat omzet harian yang tersimpan saat hari berganti</small>
+                </div>
+                <span class="badge-tag">Histori Harian</span>
+              </div>
+              <div class="table-responsive" style="max-height: 280px; overflow-y: auto;">
+                <table class="data-table" id="daily-rekap-table">
+                  <thead>
+                    <tr>
+                      <th>Tanggal</th>
+                      <th>Total Transaksi</th>
+                      <th>Porsi Terjual</th>
+                      <th>Total Omzet</th>
+                      <th>Laba Kotor</th>
+                    </tr>
+                  </thead>
+                  <tbody id="daily-rekap-tbody">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Top 5 Best Sellers -->
+            <div class="analytics-card top-products-card">
+              <div class="card-header">
+                <h3>Menu Terlaris (Best Seller)</h3>
+                <span class="badge-tag">Top 5</span>
+              </div>
+              <div class="top-products-list" id="top-products-list">
+                <!-- Dynamically rendered items -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Transaction History Table -->
+          <div class="history-section">
+            <div class="section-title-bar">
+              <div>
+                <h3>Riwayat Seluruh Nota Transaksi</h3>
+                <small style="color: var(--text-muted);">Nota-nota terdahulu tetap tersimpan dan dapat dicetak ulang kapan saja</small>
+              </div>
+              <div class="search-box">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="filter-history-search" placeholder="Cari no nota TRX atau nama kasir...">
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="data-table" id="transactions-table">
+                <thead>
+                  <tr>
+                    <th>No. Nota</th>
+                    <th>Tanggal & Waktu</th>
+                    <th>Kasir</th>
+                    <th>Pesanan Menu</th>
+                    <th>Metode Pembayaran</th>
+                    <th>Total Belanja</th>
+                    <th style="text-align: right; width: 140px;">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="transactions-table-body">
+                  <!-- Populated by JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================ -->
+        <!-- VIEW 5: PENGATURAN SISTEM & TOKO -->
+        <!-- ============================================ -->
+        <section id="view-settings" class="view-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <h2>Pengaturan Style Coffe & Style Food</h2>
+              <p>Sesuaikan profil kedai, foto QRIS, nomor rekening transfer, dan struk kasir.</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- Store Profile Settings -->
+            <div class="settings-card">
+              <div class="card-header">
+                <div class="card-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                </div>
+                <h3>Profil Kedai & Kafe</h3>
+              </div>
+
+              <form id="form-store-profile" class="settings-form">
+                <div class="form-group">
+                  <label for="set-store-name">Nama Toko / Kedai</label>
+                  <input type="text" id="set-store-name" required value="Style Coffe & Style Food">
+                </div>
+
+                <div class="form-group">
+                  <label for="set-store-slogan">Slogan / Tagline</label>
+                  <input type="text" id="set-store-slogan" value="Coffee, Food & Good Vibes">
+                </div>
+
+                <div class="form-group">
+                  <label for="set-store-address">Alamat Lengkap</label>
+                  <textarea id="set-store-address" rows="2">Jl.Budi Cilember No 120, Kota Bandung</textarea>
+                </div>
+
+                <div class="form-group">
+                  <label for="set-store-phone">Nomor Telepon / WhatsApp</label>
+                  <input type="text" id="set-store-phone" value="082130486085">
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                  <span>Simpan Perubahan Profil</span>
+                </button>
+              </form>
+            </div>
+
+            <!-- Receipt & Hardware Settings -->
+            <div class="settings-card">
+              <div class="card-header">
+                <div class="card-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                </div>
+                <h3>Pengaturan Struk Thermal & Pajak</h3>
+              </div>
+
+              <form id="form-receipt-settings" class="settings-form">
+                <div class="form-group">
+                  <label for="set-printer-width">Ukuran Kertas Thermal Printer</label>
+                  <select id="set-printer-width">
+                    <option value="58mm">58mm (Standar Mini Thermal Bluetooth / Mobile POS)</option>
+                    <option value="80mm">80mm (Standar Desktop POS)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="set-tax-rate">Persentase Pajak PPN (%)</label>
+                  <input type="number" id="set-tax-rate" min="0" max="50" step="0.5" value="11">
+                </div>
+
+                <div class="form-group">
+                  <label for="set-receipt-footer">Pesan Footer Struk (Penutup)</label>
+                  <textarea id="set-receipt-footer" rows="2">Terima kasih atas kunjungan Anda di Style Coffe & Style Food!&#10;Follow IG: @stylecoffe.food</textarea>
+                </div>
+
+                <div class="form-actions-inline">
+                  <button type="submit" class="btn btn-primary">
+                    <span>Simpan Pengaturan Struk</span>
+                  </button>
+                  <button type="button" id="btn-test-print" class="btn btn-outline-secondary">
+                    <span>Test Cetak Struk Sampel</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <!-- Backup & Restore -->
+            <div class="settings-card full-width">
+              <div class="card-header">
+                <div class="card-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                </div>
+                <h3>Pencadangan & Pemulihan Data (Backup / Restore)</h3>
+              </div>
+
+              <div class="data-actions-row">
+                <div class="data-action-box">
+                  <h4>Cadangkan Seluruh Data</h4>
+                  <p>Unduh seluruh data menu makanan, minuman, stok, dan riwayat penjualan dalam bentuk berkas JSON aman.</p>
+                  <button id="btn-backup-data" class="btn btn-outline-primary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    <span>Download Backup JSON</span>
+                  </button>
+                </div>
+
+                <div class="data-action-box">
+                  <h4>Pulihkan dari Berkas</h4>
+                  <p>Unggah berkas cadangan JSON sebelumnya untuk mengembalikan seluruh kondisi menu dan transaksi.</p>
+                  <input type="file" id="input-restore-file" accept=".json" class="hidden">
+                  <button id="btn-trigger-restore" class="btn btn-outline-secondary">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <span>Pilih Berkas Backup (.json)</span>
+                  </button>
+                </div>
+
+                <div class="data-action-box danger-zone">
+                  <h4>Reset ke Menu Bawaan</h4>
+                  <p>Mengembalikan daftar menu ke menu bawaan Style Coffe & Style Food (Makanan & Minuman).</p>
+                  <button id="btn-reset-demo" class="btn btn-outline-danger">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"></polyline><polyline points="23 20 23 14 17 14"></polyline><path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"></path></svg>
+                    <span>Reset Menu Default</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- MODAL: PEMBAYARAN & HITUNG KEMBALIAN (PAYMENT) -->
+  <!-- ============================================ -->
+  <div id="modal-payment" class="modal-overlay hidden">
+    <div class="modal-dialog modal-payment-dialog">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <div class="modal-icon-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+          </div>
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <h3 style="margin: 0;">Pilih Pembayaran</h3>
+              <span id="payment-order-type-badge" class="badge-tag badge-dine_in">🍽️ Dine In</span>
+            </div>
+            <p id="payment-modal-invoice-no">No. Nota: TRX-20260909-0001</p>
+          </div>
+        </div>
+        <button class="btn-close-modal" id="btn-close-payment">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Amount to Pay Large Display -->
+        <div class="payment-bill-display">
+          <span class="bill-label">Total Tagihan:</span>
+          <h2 id="payment-display-total" class="bill-amount">Rp 0</h2>
+        </div>
+
+        <!-- Payment Methods Tabs: TUNAI, QRIS, TRANSFER (EDC REMOVED) -->
+        <div class="payment-method-selector-3">
+          <button class="method-tab active" data-method="tunai">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
+            <span>Tunai (Cash)</span>
+          </button>
+          <button class="method-tab" data-method="qris">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+            <span>QRIS</span>
+          </button>
+          <button class="method-tab" data-method="transfer">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 1l4 4-4 4"></path><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><path d="M7 23l-4-4 4-4"></path><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+            <span>Transfer Bank</span>
+          </button>
+        </div>
+
+        <!-- Dynamic Content per Method -->
+        <!-- 1. Tunai Form -->
+        <div id="method-content-tunai" class="method-content active">
+          <!-- Quick Cash Bill Buttons -->
+          <div class="quick-cash-grid">
+            <button type="button" class="btn-quick-cash" id="btn-cash-exact">Uang Pas</button>
+            <button type="button" class="btn-quick-cash" data-val="10000">Rp 10.000</button>
+            <button type="button" class="btn-quick-cash" data-val="20000">Rp 20.000</button>
+            <button type="button" class="btn-quick-cash" data-val="50000">Rp 50.000</button>
+            <button type="button" class="btn-quick-cash" data-val="100000">Rp 100.000</button>
+            <button type="button" class="btn-quick-cash" data-val="200000">Rp 200.000</button>
+          </div>
+
+          <!-- Cash Input -->
+          <div class="form-group cash-input-group">
+            <label for="payment-cash-input">Uang Diterima dari Pelanggan (Rp)</label>
+            <div class="input-with-icon input-large">
+              <span class="currency-prefix">Rp</span>
+              <input type="number" id="payment-cash-input" placeholder="0" min="0" step="1000" autocomplete="off">
+            </div>
+          </div>
+
+          <!-- Change Calculation Display -->
+          <div class="change-display-card" id="change-card">
+            <span class="change-label">Uang Kembalian:</span>
+            <span id="payment-display-change" class="change-amount">Rp 0</span>
+          </div>
+        </div>
+
+        <!-- 2. QRIS View (Uses User's Real QR Image!) -->
+        <div id="method-content-qris" class="method-content">
+          <div class="qris-box">
+            <div class="qris-header-badge">
+              <span class="qris-brand">QRIS</span>
+              <small>NMID: Style Coffe & Style Food</small>
+            </div>
+            <!-- Real QRIS Image Uploaded by User -->
+            <div class="qris-qr-wrapper">
+              <img id="qris-image-display" 
+                   src="qris.jpeg" 
+                   onerror="this.onerror=null; this.src='qris.jpg';" 
+                   alt="QRIS Style Coffe & Style Food"
+                   class="qris-custom-img">
+            </div>
+            <p class="qris-instruction">Scan barcode QRIS resmi Style Coffe & Style Food via BCA, Mandiri, BRI, BNI, GoPay, OVO, Dana, ShopeePay, dll.</p>
+            <div class="qris-timer">
+              <span>● Menunggu verifikasi pembayaran</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Transfer Form (Single Account: 1601700072342 an style coffe) -->
+        <div id="method-content-transfer" class="method-content">
+          <div class="single-transfer-card">
+            <div class="transfer-card-header">
+              <span class="bank-title">Rekening Transfer Resmi:</span>
+              <span class="badge-tag">Style Coffe</span>
+            </div>
+            <div class="account-number-box">
+              <span class="acc-label">Nomor Rekening:</span>
+              <div class="acc-number-row">
+                <strong id="transfer-acc-number">1601700072342</strong>
+                <button type="button" class="btn btn-xs btn-outline-primary" id="btn-copy-acc" title="Salin No. Rekening">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span id="copy-acc-text">Salin No. Rek</span>
+                </button>
+              </div>
+              <span class="acc-holder">Atas Nama: <strong>style coffe</strong></span>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 15px;">
+            <label for="payment-transfer-ref">Nomor Referensi Transfer / Nama Pengirim (Opsional)</label>
+            <input type="text" id="payment-transfer-ref" placeholder="Contoh: Bpk. Dani / Ref #819">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer payment-footer">
+        <button type="button" class="btn btn-secondary" id="btn-cancel-payment">Batal</button>
+        <button type="button" class="btn btn-success btn-lg" id="btn-confirm-payment">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Selesaikan & Cetak Struk (Enter)</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- MODAL: CETAK STRUK THERMAL & DETAIL NOTA -->
+  <!-- ============================================ -->
+  <div id="modal-receipt" class="modal-overlay hidden">
+    <div class="modal-dialog modal-receipt-dialog">
+      <div class="modal-header modal-no-print">
+        <div class="modal-header-title">
+          <div class="modal-icon-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          </div>
+          <div>
+            <h3>Pratinjau Struk Kasir</h3>
+            <p>Style Coffe & Style Food</p>
+          </div>
+        </div>
+
+        <!-- Paper Width Quick Toggle -->
+        <div class="paper-width-switch">
+          <button type="button" class="btn-paper-width active" data-width="58mm">58mm</button>
+          <button type="button" class="btn-paper-width" data-width="80mm">80mm</button>
+        </div>
+
+        <button class="btn-close-modal" id="btn-close-receipt">&times;</button>
+      </div>
+
+      <!-- Receipt Type Tabs: Struk Pelanggan vs Tiket Dapur -->
+      <div class="receipt-type-tabs modal-no-print">
+        <button type="button" class="btn-receipt-tab active" id="tab-receipt-customer">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"></rect><line x1="2" y1="10" x2="22" y2="10"></line></svg>
+          <span>Struk Pelanggan</span>
+        </button>
+        <button type="button" class="btn-receipt-tab" id="tab-receipt-kitchen">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
+          <span>Tiket Dapur / Barista</span>
+        </button>
+      </div>
+
+      <div class="modal-body receipt-scrollable-body">
+        <!-- 1. THERMAL PAPER RECEIPT CONTENT (CUSTOMER) -->
+        <div id="thermal-receipt-paper" class="thermal-receipt-paper width-58mm">
+          <!-- Header Toko -->
+          <div class="receipt-header">
+            <h2 id="receipt-store-name">STYLE COFFE & STYLE FOOD</h2>
+            <p id="receipt-store-slogan" class="receipt-slogan">Coffee, Food & Good Vibes</p>
+            <p id="receipt-store-address" class="receipt-address">Jl.Budi Cilember No 120, Kota Bandung</p>
+            <p id="receipt-store-phone" class="receipt-phone">Telp: 082130486085</p>
+          </div>
+
+          <div class="receipt-divider-dashed"></div>
+
+          <!-- Metadata Nota -->
+          <div class="receipt-meta">
+            <div class="meta-line"><span>No. Nota:</span> <strong id="receipt-inv-no">TRX-20260909-0001</strong></div>
+            <div class="meta-line"><span>Waktu:</span> <span id="receipt-datetime">09/09/2026 07:30</span></div>
+            <div class="meta-line"><span>Kasir:</span> <span id="receipt-cashier">Kasir</span></div>
+            <div class="meta-line"><span>Tipe / Meja:</span> <strong id="receipt-order-type-table">Dine In (Meja 01)</strong></div>
+            <div class="meta-line"><span>Metode:</span> <span id="receipt-method">TUNAI</span></div>
+          </div>
+
+          <div class="receipt-divider-dashed"></div>
+
+          <!-- Daftar Pesanan Barang -->
+          <div class="receipt-items-table">
+            <div class="receipt-table-header">
+              <span class="col-item">MENU</span>
+              <span class="col-qty">QTY</span>
+              <span class="col-price">HARGA</span>
+              <span class="col-total">TOTAL</span>
+            </div>
+            <div id="receipt-items-list" class="receipt-items-list">
+              <!-- Item lines populated by JS -->
+            </div>
+          </div>
+
+          <div class="receipt-divider-dashed"></div>
+
+          <!-- Perhitungan Subtotal, Pajak, Total -->
+          <div class="receipt-totals">
+            <div class="total-line">
+              <span>Subtotal:</span>
+              <span id="receipt-subtotal">Rp 0</span>
+            </div>
+            <div class="total-line" id="receipt-discount-line">
+              <span>Diskon:</span>
+              <span id="receipt-discount">-Rp 0</span>
+            </div>
+            <div class="total-line" id="receipt-tax-line">
+              <span>PPN (11%):</span>
+              <span id="receipt-tax">Rp 0</span>
+            </div>
+            <div class="total-line" id="receipt-delivery-line" style="display: none;">
+              <span>Ongkir (Delivery):</span>
+              <span id="receipt-delivery">Rp 0</span>
+            </div>
+            <div class="receipt-divider-solid"></div>
+            <div class="total-line grand-total">
+              <span>TOTAL:</span>
+              <span id="receipt-grand-total">Rp 0</span>
+            </div>
+            <div class="total-line">
+              <span>Bayar:</span>
+              <span id="receipt-paid">Rp 0</span>
+            </div>
+            <div class="total-line">
+              <span>Kembali:</span>
+              <span id="receipt-change">Rp 0</span>
+            </div>
+          </div>
+
+          <div class="receipt-divider-dashed"></div>
+
+          <!-- Footer Struk & Barcode -->
+          <div class="receipt-footer">
+            <div class="receipt-barcode-wrap">
+              <svg id="receipt-barcode-svg" width="160" height="35" viewBox="0 0 160 35"></svg>
+            </div>
+            <p id="receipt-footer-text" class="footer-msg">Terima kasih atas kunjungan Anda di Style Coffe & Style Food!<br>Follow IG: @stylecoffe.food</p>
+          </div>
+        </div>
+
+        <!-- 2. KITCHEN / BARISTA ORDER SLIP (FOR PREPARATION) -->
+        <div id="kitchen-ticket-paper" class="thermal-receipt-paper width-58mm hidden">
+          <div class="receipt-header kitchen-header">
+            <h2>*** TIKET DAPUR / BARISTA ***</h2>
+            <p class="kitchen-subtitle">STYLE COFFE & STYLE FOOD</p>
+          </div>
+
+          <div class="receipt-divider-solid"></div>
+
+          <div class="receipt-meta kitchen-meta">
+            <div class="kitchen-badge-row">
+              <span id="kitchen-order-type" class="badge-kitchen-type">DINE IN</span>
+              <h2 id="kitchen-order-target" class="kitchen-target">MEJA 01</h2>
+            </div>
+            <div class="meta-line"><span>No. Order:</span> <strong id="kitchen-inv-no">TRX-0001</strong></div>
+            <div class="meta-line"><span>Waktu:</span> <span id="kitchen-datetime">09/09 08:30</span></div>
+            <div class="meta-line"><span>Kasir:</span> <span id="kitchen-cashier">Kasir</span></div>
+          </div>
+
+          <div class="receipt-divider-solid"></div>
+
+          <!-- Kitchen Items List -->
+          <div class="kitchen-items-list" id="kitchen-items-list">
+            <!-- Populated by JS -->
+          </div>
+
+          <div class="receipt-divider-dashed"></div>
+          <div class="kitchen-footer">
+            <p>--- Harap Segera Disajikan ---</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer modal-no-print">
+        <button type="button" class="btn btn-secondary" id="btn-done-receipt">Selesai / Transaksi Baru</button>
+        <button type="button" class="btn btn-outline-primary" id="btn-print-kitchen-ticket">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
+          <span>Cetak Tiket Dapur</span>
+        </button>
+        <button type="button" class="btn btn-primary btn-lg" id="btn-trigger-print">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          <span id="btn-print-label">Cetak Struk Kasir</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- MODAL: TAMBAH & EDIT MENU (CRUD) -->
+  <!-- ============================================ -->
+  <div id="modal-product-form" class="modal-overlay hidden">
+    <div class="modal-dialog modal-form-dialog">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <div class="modal-icon-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path></svg>
+          </div>
+          <div>
+            <h3 id="modal-product-title">Tambah Menu Baru</h3>
+            <p>Makanan atau Minuman Style Coffe & Food</p>
+          </div>
+        </div>
+        <button class="btn-close-modal" id="btn-close-product-form">&times;</button>
+      </div>
+
+      <form id="form-product-crud">
+        <input type="hidden" id="prod-id" value="">
+
+        <div class="modal-body form-grid">
+          <!-- Image Upload & Preview -->
+          <div class="form-group full-col product-image-uploader">
+            <label>Foto Menu (Opsional)</label>
+            <div class="image-preview-box">
+              <div class="preview-img-wrap" id="prod-image-preview">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+              </div>
+              <div class="uploader-controls">
+                <input type="file" id="prod-file-input" accept="image/*" class="hidden">
+                <button type="button" class="btn btn-outline-secondary btn-sm" id="btn-trigger-file-upload">
+                  <span>Pilih Gambar dari Komputer</span>
+                </button>
+                <div class="or-divider">atau tempel link gambar (URL):</div>
+                <input type="text" id="prod-image-url" placeholder="https://contoh.com/foto_kopi.jpg">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="prod-barcode">Kode Menu / Barcode *</label>
+            <div class="input-with-action">
+              <input type="text" id="prod-barcode" required placeholder="Contoh: SC-001">
+              <button type="button" class="btn btn-xs btn-outline-secondary" id="btn-gen-barcode" title="Buat Kode Otomatis">Acak</button>
+            </div>
+          </div>
+
+          <!-- ONLY MAKANAN & MINUMAN (SEMBAKO REMOVED) -->
+          <div class="form-group">
+            <label for="prod-category">Kategori Menu *</label>
+            <div class="input-with-action">
+              <select id="prod-category" required>
+                <option value="Minuman">Minuman (Kopi, Teh, Latte, Mocktail)</option>
+                <option value="Makanan">Makanan (Nasi, Mie, Roti Bakar, Snack)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group full-col">
+            <label for="prod-name">Nama Menu *</label>
+            <input type="text" id="prod-name" required placeholder="Contoh: Kopi Susu Gula Aren Spesial">
+          </div>
+
+          <div class="form-group">
+            <label for="prod-cost">Harga Modal / HPP Bahan (Rp) *</label>
+            <input type="number" id="prod-cost" required min="0" step="100" placeholder="Contoh: 8000">
+          </div>
+
+          <div class="form-group">
+            <label for="prod-price">Harga Jual (Rp) *</label>
+            <input type="number" id="prod-price" required min="0" step="100" placeholder="Contoh: 18000">
+          </div>
+
+          <div class="form-group">
+            <label for="prod-stock">Stok / Porsi Tersedia *</label>
+            <input type="number" id="prod-stock" required min="0" value="25">
+          </div>
+
+          <div class="form-group">
+            <label for="prod-min-stock">Batas Minimum Porsi (Alert) *</label>
+            <input type="number" id="prod-min-stock" required min="0" value="5">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-product-form">Batal</button>
+          <button type="submit" class="btn btn-primary" id="btn-save-product">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+            <span>Simpan Menu</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- MODAL: PENYESUAIAN STOK (STOCK ADJUSTMENT) -->
+  <!-- ============================================ -->
+  <div id="modal-stock-adjust" class="modal-overlay hidden">
+    <div class="modal-dialog modal-sm-dialog">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <div class="modal-icon-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+          </div>
+          <div>
+            <h3 id="modal-stock-title">Penyesuaian Stok Menu</h3>
+            <p id="modal-stock-subtitle">Restock atau koreksi porsi</p>
+          </div>
+        </div>
+        <button class="btn-close-modal" id="btn-close-stock-adjust">&times;</button>
+      </div>
+
+      <form id="form-stock-adjust">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="adjust-product-select">Pilih Menu *</label>
+            <select id="adjust-product-select" required>
+              <!-- Filled with products -->
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="adjust-type">Jenis Penyesuaian *</label>
+            <select id="adjust-type" required>
+              <option value="IN">Stok Masuk / Restock Bahan (+)</option>
+              <option value="OUT">Stok Keluar / Bahan Basi / Rusak (-)</option>
+              <option value="CORRECTION">Koreksi Hitungan Fisik</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="adjust-qty" id="adjust-qty-label">Jumlah Porsi (Qty) *</label>
+            <input type="number" id="adjust-qty" required min="1" value="10">
+          </div>
+
+          <div class="form-group">
+            <label for="adjust-notes">Catatan / Keterangan</label>
+            <input type="text" id="adjust-notes" placeholder="Contoh: Belanja bahan harian">
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-stock-adjust">Batal</button>
+          <button type="submit" class="btn btn-primary">
+            <span>Simpan Perubahan</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- MODAL: DAFTAR PESANAN TERTAHAN (HOLD ORDERS) -->
+  <!-- ============================================ -->
+  <div id="modal-held-orders" class="modal-overlay hidden">
+    <div class="modal-dialog modal-md-dialog">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <div class="modal-icon-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <div>
+            <h3>Pesanan Tertahan (Parkir Transaksi)</h3>
+            <p>Daftar pesanan yang disimpan sementara di meja kasir</p>
+          </div>
+        </div>
+        <button class="btn-close-modal" id="btn-close-held-orders">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div id="held-orders-container" class="held-orders-list">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+      <script>
+  // Contoh menyimpan token setelah login berhasil dari server
+  function handleLoginSuccess(token) {
+      localStorage.setItem('user_session_token', token);
+      alert('Login berhasil di perangkat ini!');
+  }
+
+  // Mengirim token di setiap request API berikutnya
+  async function fetchUserData() {
+      const token = localStorage.getItem('user_session_token');
+      
+      const response = await('/api/profile', {
+          headers: {
+              'Authorization': `Bearer ${token}`
+          }
+      });
+      const data = await response.json();
+      // Tampilkan data ke HTML...
+  }
+</script>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="btn-done-held-orders">Tutup (Esc)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <!-- MODAL: PANDUAN TOMBOL CEPAT (KEYBOARD SHORTCUTS) -->
+  <!-- ============================================ -->
+  <div id="modal-shortcuts" class="modal-overlay hidden">
+    <div class="modal-dialog modal-md-dialog">
+      <div class="modal-header">
+        <div class="modal-header-title">
+          <div class="modal-icon-badge">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="M6 8h.01M10 8h.01M14 8h.01M18 8h.01M6 12h.01M10 12h.01M14 12h.01M18 12h.01M7 16h10"></path></svg>
+          </div>
+          <div>
+            <h3>Panduan Tombol Cepat (Shortcuts)</h3>
+            <p>Percepat pelayanan kasir Style Coffe tanpa mouse</p>
+          </div>
+        </div>
+        <button class="btn-close-modal" id="btn-close-shortcuts">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="shortcuts-grid">
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>F1</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Bantuan Shortcuts</strong>
+              <small>Buka jendela panduan tombol ini</small>
+            </div>
+          </div>
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>F2</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Cari Menu Kopi / Makanan</strong>
+              <small>Fokus langsung ke kotak pencarian</small>
+            </div>
+          </div>
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>F3</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Barcode Scanner</strong>
+              <small>Fokus ke kotak scan barcode</small>
+            </div>
+          </div>
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>F4</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Proses Pembayaran</strong>
+              <small>Buka popup hitung bayar & kembalian</small>
+            </div>
+          </div>
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>F7</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Tahan Pesanan (Hold)</strong>
+              <small>Parkir pesanan pelanggan saat ini</small>
+            </div>
+          </div>
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>F8</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Reset / Kosongkan Keranjang</strong>
+              <small>Hapus seluruh menu di pesanan aktif</small>
+            </div>
+          </div>
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>F9</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Daftar Pesanan Tertahan</strong>
+              <small>Lihat & lanjutkan pesanan yang diparkir</small>
+            </div>
+          </div>
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>F11</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Layar Penuh (Fullscreen POS)</strong>
+              <small>Tampilan kasir penuh tanpa bilah browser</small>
+            </div>
+          </div>
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>Esc</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Tutup Jendela Modal</strong>
+              <small>Tutup popup struk, bayar, atau bantuan</small>
+            </div>
+          </div>
+          <div class="shortcut-item">
+            <div class="shortcut-keys"><kbd>Enter</kbd></div>
+            <div class="shortcut-desc">
+              <strong>Konfirmasi Pembayaran</strong>
+              <small>Saat di popup bayar, langsung selesaikan transaksi</small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="btn-done-shortcuts">Mengerti (Esc)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Audio Tone Synthesizer & Logic Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
